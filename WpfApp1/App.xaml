@@ -109,35 +109,33 @@
 
         <!--#region Зона ввода окон данных -->
         <Style x:Key="DataZone" TargetType="TextBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+            <Setter Property="Padding" Value="8,6"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TextBox">
-                        <Border Background="{TemplateBinding Background}" BorderThickness="3" BorderBrush="White" CornerRadius="6">
-
-
+                        <Border x:Name="bd"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                            <ScrollViewer x:Name="PART_ContentHost"
+                                  Margin="{TemplateBinding Padding}"
+                                  VerticalAlignment="Center"/>
                         </Border>
-
-
-
-                        <!--<ControlTemplate.Triggers>
-                            <Trigger Property="is"
-                            
-                            
-                            
-                        </ControlTemplate.Triggers>-->
-
-
-
-
-
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="bd" Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+                                <Setter TargetName="bd" Property="BorderThickness" Value="2"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
-
-
                 </Setter.Value>
             </Setter>
         </Style>
-        
-        
+
+
         <!--#endregion-->
 
 

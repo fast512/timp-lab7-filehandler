@@ -33,7 +33,7 @@ namespace WpfApp1.ViewModel
         private bool CanLogin() => !string.IsNullOrWhiteSpace(Login) && !string.IsNullOrWhiteSpace(_password);
 
         [RelayCommand(CanExecute = nameof(CanLogin))]
-        private void ClearInput() { Login = ""; Password = ""; }
+        private void ClearInput() { Login = ""; Password = ""; StatusMessage = ""; }
 
 
 

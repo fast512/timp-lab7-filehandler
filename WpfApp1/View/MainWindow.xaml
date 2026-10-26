@@ -1,0 +1,108 @@
+﻿<Window x:Class="WpfApp1.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Система ввода рейтинга" Height="600" Width="1000"
+        MinHeight="450" MinWidth="750"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>   <!-- шапка с преподавателем -->
+            <RowDefinition Height="*"/>      <!-- дисциплины + таблица -->
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="260"/>  <!-- список дисциплин -->
+            <ColumnDefinition Width="*"/>    <!-- рейтинг -->
+        </Grid.ColumnDefinitions>
+
+
+        <!--#region шапка: информация о преподавателе -->
+        <Border Grid.Row="0" Grid.ColumnSpan="2"  
+                Background="White" Style="{StaticResource Card}" Margin="0,0,0,22">
+            <StackPanel>
+                <TextBlock Text="{Binding Teacher.FullName}" Style="{StaticResource Title}"/>
+                <TextBlock Text="{Binding Teacher.Department}" Foreground="{StaticResource MutedBrush}" Margin="0,4,0,0"/>
+            </StackPanel>
+        </Border>
+        <!--#endregion-->
+
+
+        <!--#region слева: дисциплины преподавателя -->
+        <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource Card}" Margin="0,0,12,0">
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top" Text="Мои дисциплины" FontWeight="SemiBold" Margin="0,0,0,8"/>
+
+                <ListBox ItemsSource="{Binding Disciplines}"
+                         SelectedItem="{Binding SelectedDiscipline}"
+                         BorderThickness="0"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="4,6">
+                                <TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextWrapping="Wrap"/>
+                                <TextBlock Text="{Binding Group}" Foreground="{StaticResource MutedBrush}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+        </Border>
+        <!--#endregion-->
+
+
+        <!--#region справа: контрольные точки и рейтинг студентов -->
+        <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource Card}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>  <!-- название дисциплины -->
+                    <RowDefinition Height="Auto"/>  <!-- контрольные точки -->
+                    <RowDefinition Height="*"/>     <!-- таблица -->
+                    <RowDefinition Height="Auto"/>  <!-- статус + сохранить -->
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal">
+                    <TextBlock Text="{Binding SelectedDiscipline.Name}" Style="{StaticResource Title}"/>
+                    <TextBlock Text="{Binding SelectedDiscipline.Group}" Foreground="{StaticResource MutedBrush}"
+                               FontSize="16" VerticalAlignment="Bottom" Margin="12,0,0,2"/>
+                </StackPanel>
+
+                <!-- названия КТ: КТ1 — Лабораторные работы, КТ2 — ... -->
+                <ItemsControl Grid.Row="1" ItemsSource="{Binding SelectedDiscipline.ControlPoints}" Margin="0,8,0,12">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="#EEF2FA" CornerRadius="12" Padding="10,4" Margin="0,0,8,4">
+                                <TextBlock Text="{Binding}" Foreground="{StaticResource PrimaryDarkBrush}"/>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <DataGrid Grid.Row="2" ItemsSource="{Binding Students}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Студент" Binding="{Binding FullName}" IsReadOnly="True" Width="*"/>
+                        <DataGridTextColumn Header="КТ1" Binding="{Binding Kt1, UpdateSourceTrigger=PropertyChanged}" Width="70"/>
+                        <DataGridTextColumn Header="КТ2" Binding="{Binding Kt2, UpdateSourceTrigger=PropertyChanged}" Width="70"/>
+                        <DataGridTextColumn Header="КТ3" Binding="{Binding Kt3, UpdateSourceTrigger=PropertyChanged}" Width="70"/>
+                        <DataGridTextColumn Header="Итого" Binding="{Binding Total}" IsReadOnly="True" Width="80" FontWeight="SemiBold"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <DockPanel Grid.Row="3" Margin="0,12,0,0">
+                    <Button DockPanel.Dock="Right" Content="Сохранить" Command="{Binding SaveCommand}"/>
+                    <TextBlock Text="{Binding StatusMessage}" Foreground="{StaticResource MutedBrush}"
+                               VerticalAlignment="Center" TextWrapping="Wrap"/>
+                </DockPanel>
+            </Grid>
+        </Border>
+        <!--#endregion-->
+
+    </Grid>
+</Window>

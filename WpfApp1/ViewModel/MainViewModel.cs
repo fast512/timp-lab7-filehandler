@@ -3,42 +3,16 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using WpfApp1.Models;
 
-namespace WpfApp1
+namespace WpfApp1.ViewModel
 {
-    public class MainViewModel: ObservableObject
-    
+    public partial class MainViewModel : ObservableObject
     {
-        public Teacher Teacher;
+        // свойство (не поле!) — иначе {Binding Teacher.FullName} в окне не сработает
+        public Teacher Teacher { get; }
 
-
-
-
-        public MainViewModel() 
-        
+        public MainViewModel(Teacher teacher)
         {
-     
-
+            Teacher = teacher;
         }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     }
-
-
-
 }

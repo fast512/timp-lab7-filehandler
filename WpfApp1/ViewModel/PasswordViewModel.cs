@@ -38,7 +38,7 @@ namespace WpfApp1.ViewModel
 
             List<Teacher> teachers = _dataService.LoadTeachers();
 
-            // авторизация простым сравнением строк (логин без учёта регистра, пароль — с учётом)
+           
             Teacher? found = teachers.FirstOrDefault(t =>
                 string.Equals(t.Login, Login.Trim(), StringComparison.OrdinalIgnoreCase)
                 && string.Equals(t.Password, Password, StringComparison.Ordinal));
